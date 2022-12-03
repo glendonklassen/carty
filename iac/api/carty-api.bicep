@@ -1,5 +1,6 @@
 param apimName string
 param apiName string
+param loggerId string
 param cartyPath string = 'carty'
 
 resource apimDeploy 'Microsoft.ApiManagement/service@2021-12-01-preview' existing = {
@@ -41,5 +42,18 @@ resource cartyAdminSubscription 'Microsoft.ApiManagement/service/subscriptions@2
     displayName: 'CartyAdmin'
     scope: 'apis/${cartyApiDeploy.id}'
     state: 'active'
+  }
+}
+
+resource apiMonitoring 'Microsoft.ApiManagement/service/apis/diagnostics@2022-04-01-preview' = {
+  name: 'applicationinsights'
+  parent: cartyApiDeploy
+  properties: {
+    alwaysLog: 'allErrors'
+    loggerId: loggerId
+    logClientIp: true
+    httpCorrelationProtocol: 'W3C'
+    verbosity: 'information'
+    operationNameFormat: 'Url'
   }
 }

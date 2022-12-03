@@ -3,14 +3,6 @@ param apimName string
 param apiName string
 param appInsightsName string = 'cartyInsights'
 
-module apim 'api/apim.bicep' = {
-  name: 'apim${uniqueString('apim')}'
-  params:{
-    location: location
-    apimName: apimName
-    apiName: apiName
-  }
-}
 
 module cartyShared 'shared/app-insights.bicep' = {
   name: 'cartyShared${uniqueString('cartyShared')}'
@@ -18,4 +10,16 @@ module cartyShared 'shared/app-insights.bicep' = {
     appInsightsName: appInsightsName
     location: location
   }
+}
+module apim 'api/apim.bicep' = {
+  name: 'apim${uniqueString('apim')}'
+  params:{
+    location: location
+    apimName: apimName
+    apiName: apiName
+    appInsightsName: appInsightsName
+  }
+  dependsOn: [
+    cartyShared
+  ]
 }
