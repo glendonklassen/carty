@@ -27,7 +27,7 @@ namespace CartyMap
             var request = JsonConvert.DeserializeObject<MapDrawRequest>(body);
             if(request is null)
                 return httpRequest.CreateResponse(HttpStatusCode.BadRequest);
-            response.Headers.Add("Content-Type", "text/plain; charset=utf-8");
+            response.Headers.Add("Content-Type", "application/json; charset=utf-8");
             var dummySpaces = new List<MapSpace>();
             for (var x = 0; x < request.MaxX; x++)
             {
