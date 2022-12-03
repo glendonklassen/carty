@@ -5,5 +5,7 @@ x-api-version: v1
 content-type: application/json
 
 {
-    "name": "sample-request"
+    "maxX": 3,
+    "maxY": 3,
+    "Type": "Grassy",
 }
