@@ -1,0 +1,9 @@
+POST https://apim-gk-primary.azure-api.net/carty/map HTTP/1.1
+Ocp-Apim-Subscription-Key: {{subscriptionKey}}
+Ocp-Apim-Trace: true
+x-api-version: v1
+content-type: application/json
+
+{
+    "name": "sample-request"
+}

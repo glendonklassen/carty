@@ -13,9 +13,6 @@ local.settings.json
 # Ignoring vscode settings
 .vscode
 
-# Temporarily ignoring requests as they contain secrets
-requests
-
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 
