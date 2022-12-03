@@ -8,6 +8,9 @@
     "appPrefix": {
       "value": "carty"
     },
+    "apiName": {
+      "value": "cartyapi"
+    },
     "apimName": {
       "value": "apim-gk-primary"
     },

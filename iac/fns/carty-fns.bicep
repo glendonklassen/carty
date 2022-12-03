@@ -8,6 +8,7 @@
 param storageAccountType string = 'Standard_LRS'
 param location string
 param appName string
+param apiName string
 param apimName string
 param uniqueName string
 param sharedResourceGroup string
@@ -91,13 +92,14 @@ resource functionApp 'Microsoft.Web/sites@2022-03-01' = {
     httpsOnly: true
   }
 }
-
 module backend 'carty-backend.bicep' = {
   scope: resourceGroup(sharedResourceGroup)
   name: 'backend${appName}'
   params:{
     appName: appName
+    functionKey: listkeys('${functionApp.id}/host/default', '2016-08-01').functionKeys.default
     apimName: apimName
-    url: 'https://${functionApp.properties.defaultHostName}'
+    url: 'https://${functionApp.properties.defaultHostName}/api'
+    apiName: apiName
   }
 }

@@ -1,5 +1,6 @@
 param location string
 param apimName string
+param apiName string
 param appInsightsName string = 'cartyInsights'
 param sharedResourceGroup string
 param cartyResourceGroupName string
@@ -14,6 +15,7 @@ module apim 'api/apim.bicep' = {
   params:{
     location: location
     apimName: apimName
+    apiName: apiName
   }
 }
 
@@ -31,6 +33,7 @@ module cartyFns 'fns/carty-fns.bicep' = {
   params:{
     location: location
     appName: appName
+    apiName: apiName
     apimName: apimName
     uniqueName: uniqueName
     sharedResourceGroup: sharedResourceGroup

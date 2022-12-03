@@ -1,30 +1,33 @@
 param apimName string
+param apiName string
 param cartyPath string = 'carty'
 
 resource apimDeploy 'Microsoft.ApiManagement/service@2021-12-01-preview' existing = {
   name: apimName
 }
 
-resource cartyApiv1 'Microsoft.ApiManagement/service/apiVersionSets@2021-12-01-preview' = {
-  name: 'cartyv1'
+resource cartyApiVersionSet 'Microsoft.ApiManagement/service/apiVersionSets@2021-12-01-preview' = {
+  name: 'cartyApiVersionSet'
   parent: apimDeploy
   properties: {
-    description: 'The first iteration of Carty APIs.'
-    displayName: 'Carty v1'
+    description: 'Carty API Version Set'
+    displayName: 'Carty'
     versionHeaderName: 'x-api-version'
     versioningScheme: 'Header'
   }
 }
 
 resource cartyApiDeploy 'Microsoft.ApiManagement/service/apis@2022-04-01-preview' = {
-  name: 'cartyapi'
+  name: apiName
   parent: apimDeploy
   properties:{
     displayName: 'Carty'
     protocols:[
       'https'
     ]
-    apiVersionSetId: cartyApiv1.id
+    apiVersion: 'v1'
+    isCurrent: true
+    apiVersionSetId: cartyApiVersionSet.id
     path: cartyPath
     subscriptionRequired: true
   }

@@ -1,7 +1,7 @@
 {
   "version": "2.0",
   "logging": {
-    "fileLoggingMode": "debugOnly",
+    "fileLoggingMode": "never",
     "logLevel": {
       "default": "Error",
       "Host.Results": "Warning",

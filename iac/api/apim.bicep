@@ -1,5 +1,6 @@
 param location string
 param apimName string
+param apiName string
 
 resource apimDeploy 'Microsoft.ApiManagement/service@2021-12-01-preview' = {
   name: apimName
@@ -22,6 +23,7 @@ module cartyApi 'carty-api.bicep' = {
   name: 'cartyApi${guid('cartyApi')}'
   params: {
     apimName: apimName
+    apiName: apiName
   }
   dependsOn:[
     apimDeploy
