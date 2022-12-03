@@ -1,8 +1,8 @@
 $sharedRgName = 'gk-shared-cc'
 $cartyRgName = 'gk-carty-cc'
 $location = 'canadacentral'
-$templateFile = 'carty.bicep'
-$paramsFile = 'carty-params.json'
+$templateFile = 'carty-shared.bicep'
+$paramsFile = 'carty-shared-params.json'
 $timestamp =  (Get-Date).ToUniversalTime().ToString("yyyy-MM-ddTHHmmssK")
 $deploymentName = 'cartyDeployment' + $timestamp
 
