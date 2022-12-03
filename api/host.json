@@ -1,0 +1,28 @@
+{
+  "version": "2.0",
+  "logging": {
+    "fileLoggingMode": "never",
+    "logLevel": {
+      "default": "Error",
+      "Host.Results": "Warning",
+      "Function": "Warning",
+      "Host.Aggregator": "Warning",
+      "Function.CartyMap.User": "Information"
+    },
+    "applicationInsights": {
+      "samplingSettings": {
+        "isEnabled": true,
+        "maxTelemetryItemsPerSecond": 5,
+        "excludedTypes": "Exception"
+      },
+      "enableLiveMetrics": true,
+      "enableDependencyTracking": true,
+      "enablePerformanceCountersCollection": true,
+      "httpAutoCollectionOptions": {
+        "enableHttpTriggerExtendedInfoCollection": true,
+        "enableW3CDistributedTracing": true,
+        "enableResponseHeaderInjection": true
+      }
+    }
+  }
+}
