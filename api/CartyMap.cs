@@ -29,12 +29,12 @@ namespace CartyMap
                 return httpRequest.CreateResponse(HttpStatusCode.BadRequest);
             response.Headers.Add("Content-Type", "application/json; charset=utf-8");
             var dummySpaces = new List<MapSpace>();
-            for (var x = 0; x < request.MaxX; x++)
+            for (var x = 0; x < request.Columns; x++)
             {
-                for (var y = 0; y < request.MaxY; y++)
+                for (var y = 0; y < request.Rows; y++)
                 {
                     
-                    dummySpaces.Add(new MapSpace{Type = request.Type, X = x, Y = y});
+                    dummySpaces.Add(new MapSpace{Type = new Random().Next(1,request.Rows ?? 1), X = x, Y = y});
                 }
             }
             response.WriteString(JsonConvert.SerializeObject(dummySpaces));

@@ -5,7 +5,6 @@ x-api-version: v1
 content-type: application/json
 
 {
-    "maxX": 3,
-    "maxY": 3,
-    "Type": "Grassy",
+    "columns": 5,
+    "rows": 5,
 }
