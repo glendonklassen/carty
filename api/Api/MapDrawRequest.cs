@@ -2,7 +2,6 @@
 
 public class MapDrawRequest
 {
-    public int? Columns { get; set; }
-    public int? Rows { get; set; }
-    public string? Type { get; set; }
+    public int Columns { get; set; } = 1;
+    public int Rows { get; set; } = 1;
 }
