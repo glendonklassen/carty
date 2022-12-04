@@ -34,7 +34,7 @@ namespace CartyMap
                 for (var y = 0; y < request.Rows; y++)
                 {
                     
-                    dummySpaces.Add(new MapSpace{Type = request.Type, X = x, Y = y});
+                    dummySpaces.Add(new MapSpace{Type = new Random().Next(1,request.Rows ?? 1), X = x, Y = y});
                 }
             }
             response.WriteString(JsonConvert.SerializeObject(dummySpaces));

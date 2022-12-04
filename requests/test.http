@@ -4,5 +4,4 @@ content-type: application/json
 {
     "columns": 5,
     "rows": 5,
-    "type": "Grassy",
 }

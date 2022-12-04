@@ -7,5 +7,5 @@ public class MapSpace
     public int Q => X - (Y + (Y & 1)) / 2;
     public int R => Y;
     public int S => -Q-R;
-    public string? Type { get; set; }
+    public int Type { get; set; }
 }
