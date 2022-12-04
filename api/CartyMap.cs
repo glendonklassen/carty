@@ -9,17 +9,9 @@ namespace CartyMap
 {
     public class CartyMap
     {
-        private readonly ILogger _logger;
-
-        public CartyMap(ILoggerFactory loggerFactory)
-        {
-            _logger = loggerFactory.CreateLogger<CartyMap>();
-        }
-
         [Function(nameof(CartyMap))]
         public async Task<HttpResponseData> Run([HttpTrigger(AuthorizationLevel.Function, "post", Route = "map")] HttpRequestData httpRequest)
         {
-            _logger.LogInformation("C# HTTP trigger function processed a request.");
             var body = await httpRequest.ReadAsStringAsync();
             var response = httpRequest.CreateResponse(HttpStatusCode.OK);
             if (string.IsNullOrEmpty(body))
@@ -28,17 +20,28 @@ namespace CartyMap
             if(request is null)
                 return httpRequest.CreateResponse(HttpStatusCode.BadRequest);
             response.Headers.Add("Content-Type", "application/json; charset=utf-8");
+            MapSpace? prevSpace = null;
+            var random = new Random();
             var dummySpaces = new List<MapSpace>();
             for (var x = 0; x < request.Columns; x++)
             {
                 for (var y = 0; y < request.Rows; y++)
                 {
-                    
-                    dummySpaces.Add(new MapSpace{Type = new Random().Next(1,request.Rows ?? 1), X = x, Y = y});
+                    var curSpace = new MapSpace{X = x, Y = y};
+                    curSpace.Type = NextType(prevSpace, curSpace, request.Rows, random);
+                    dummySpaces.Add(curSpace);
+                    prevSpace = curSpace;
                 }
             }
             response.WriteString(JsonConvert.SerializeObject(dummySpaces));
             return response;
+        }
+
+        private static int NextType(MapSpace? prevSpace, MapSpace curSpace, int rows, Random rand)
+        {
+            if (prevSpace is null || prevSpace.Y != curSpace.Y) return rand.Next(1, rows);
+            var flip = rand.Next() % 2 == 0;
+            return flip ? prevSpace.Type : rand.Next(1, rows);
         }
     }
 }
