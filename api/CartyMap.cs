@@ -13,10 +13,12 @@ namespace GK.Carty
     public class CartyMap
     {
         private readonly IMapRule<TerrainType> _rule;
+        private readonly IRandomProvider _r;
 
-        public CartyMap(IMapRule<TerrainType> rule)
+        public CartyMap(IMapRule<TerrainType> rule, IRandomProvider r)
         {
             _rule = rule ?? throw new ArgumentNullException(nameof(rule));
+            _r = r ?? throw new ArgumentNullException(nameof(r));
         }
 
         [FunctionName(nameof(CartyMap))]

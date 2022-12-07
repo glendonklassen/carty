@@ -12,4 +12,5 @@ public class BaseRandomProvider : IRandomProvider
     }
 
     public Random GetRandom() => _random;
+    public bool Flip() => _random.Next() % 2 == 0;
 }

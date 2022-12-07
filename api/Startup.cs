@@ -13,6 +13,6 @@ public class Startup : FunctionsStartup
     {
         builder.Services
             .AddTransient<IMapRule<TerrainType>, RoadRule>()
-            .AddSingleton<IRandomProvider, BaseRandomProvider>();
+            .AddScoped<IRandomProvider, BaseRandomProvider>();
     }
 }
