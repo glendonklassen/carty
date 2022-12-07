@@ -11,6 +11,6 @@ public class BaseRandomProvider : IRandomProvider
         _random = new Random();
     }
 
-    public Random GetRandom() => _random;
+    public Random Random() => _random;
     public bool Flip() => _random.Next() % 2 == 0;
 }

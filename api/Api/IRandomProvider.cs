@@ -4,6 +4,6 @@ namespace GK.Carty.Api;
 
 public interface IRandomProvider
 {
-    Random GetRandom();
+    Random Random();
     bool Flip();
 }

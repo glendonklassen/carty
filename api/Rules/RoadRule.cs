@@ -41,7 +41,7 @@ public class RoadRule : IMapRule<TerrainType>
         }
         // Roads should not be alone.
         if (neighbours.Any(n => n.TerrainType == TerrainType.Road)) return;
-        var randomIndex = _r.GetRandom().Next(neighbours.Count);
+        var randomIndex = _r.Random().Next(neighbours.Count);
         neighbours[randomIndex].TerrainType = TerrainType.Road;
     }
 }

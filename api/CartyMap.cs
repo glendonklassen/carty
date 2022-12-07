@@ -32,17 +32,17 @@ namespace GK.Carty
             var request = JsonConvert.DeserializeObject<MapDrawRequest>(body);
             if(request is null)
                 return new BadRequestResult();
-            MapSpace? prevSpace = null;
-            var random = new Random();
             var dummySpaces = new List<MapSpace>();
             for (var x = 0; x < request.Columns; x++)
             {
                 for (var y = 0; y < request.Rows; y++)
                 {
-                    var curSpace = new MapSpace{X = x, Y = y};
-                    curSpace.TerrainType = NextType(prevSpace, curSpace, random);
+                    var curSpace = new MapSpace
+                    {
+                        X = x, Y = y,
+                        TerrainType = (TerrainType)_r.Random().Next(1, 4)
+                    };
                     dummySpaces.Add(curSpace);
-                    prevSpace = curSpace;
                 }
             }
 
@@ -51,13 +51,6 @@ namespace GK.Carty
                 _rule.SetSpaces(dummySpaces, space, TerrainType.Road);
             }
             return new OkObjectResult(dummySpaces);
-        }
-
-        private static TerrainType NextType(MapSpace? prevSpace, MapSpace curSpace, Random rand)
-        {
-            if (prevSpace is null || prevSpace.Y != curSpace.Y) return (TerrainType)rand.Next(1, 4);
-            var flip = rand.Next() % 2 == 0;
-            return flip ? prevSpace.TerrainType : (TerrainType)rand.Next(1, 4);
         }
     }
 }
