@@ -2,6 +2,6 @@ POST http://localhost:7071/api/map HTTP/1.1
 content-type: application/json
 
 {
-    "columns": 5,
-    "rows": 5,
+    "columns": 8,
+    "rows": 8,
 }

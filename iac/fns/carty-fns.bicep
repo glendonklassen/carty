@@ -12,7 +12,7 @@ param apiName string
 param apimName string
 param uniqueName string
 param sharedResourceGroup string
-param runtime string = 'dotnet-isolated'
+param runtime string = 'dotnet'
 
 param applicationInsightsName string
 var storageAccountName = 'stg${uniqueName}'
