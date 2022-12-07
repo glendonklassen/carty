@@ -1,4 +1,4 @@
-﻿namespace CartyMap.Api;
+﻿namespace GK.Carty.Api;
 
 public class MapDrawRequest
 {

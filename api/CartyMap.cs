@@ -1,25 +1,35 @@
-using System.Net;
-using CartyMap.Api;
-using Microsoft.Azure.Functions.Worker;
-using Microsoft.Azure.Functions.Worker.Http;
-using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using GK.Carty.Api;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Azure.WebJobs;
+using Microsoft.Azure.WebJobs.Extensions.Http;
 using Newtonsoft.Json;
 
-namespace CartyMap
+namespace GK.Carty
 {
     public class CartyMap
     {
-        [Function(nameof(CartyMap))]
-        public async Task<HttpResponseData> Run([HttpTrigger(AuthorizationLevel.Function, "post", Route = "map")] HttpRequestData httpRequest)
+        private readonly IMapRule<TerrainType> _rule;
+
+        public CartyMap(IMapRule<TerrainType> rule)
+        {
+            _rule = rule ?? throw new ArgumentNullException(nameof(rule));
+        }
+
+        [FunctionName(nameof(CartyMap))]
+        public async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Function, 
+            "post", 
+            Route = "map")] HttpRequest httpRequest)
         {
             var body = await httpRequest.ReadAsStringAsync();
-            var response = httpRequest.CreateResponse(HttpStatusCode.OK);
             if (string.IsNullOrEmpty(body))
-                return httpRequest.CreateResponse(HttpStatusCode.BadRequest);
+                return new BadRequestResult();
             var request = JsonConvert.DeserializeObject<MapDrawRequest>(body);
             if(request is null)
-                return httpRequest.CreateResponse(HttpStatusCode.BadRequest);
-            response.Headers.Add("Content-Type", "application/json; charset=utf-8");
+                return new BadRequestResult();
             MapSpace? prevSpace = null;
             var random = new Random();
             var dummySpaces = new List<MapSpace>();
@@ -28,20 +38,24 @@ namespace CartyMap
                 for (var y = 0; y < request.Rows; y++)
                 {
                     var curSpace = new MapSpace{X = x, Y = y};
-                    curSpace.Type = NextType(prevSpace, curSpace, request.Rows, random);
+                    curSpace.TerrainType = NextType(prevSpace, curSpace, random);
                     dummySpaces.Add(curSpace);
                     prevSpace = curSpace;
                 }
             }
-            response.WriteString(JsonConvert.SerializeObject(dummySpaces));
-            return response;
+
+            foreach (var space in dummySpaces)
+            {
+                _rule.SetSpaces(dummySpaces, space, TerrainType.Road);
+            }
+            return new OkObjectResult(dummySpaces);
         }
 
-        private static int NextType(MapSpace? prevSpace, MapSpace curSpace, int rows, Random rand)
+        private static TerrainType NextType(MapSpace? prevSpace, MapSpace curSpace, Random rand)
         {
-            if (prevSpace is null || prevSpace.Y != curSpace.Y) return rand.Next(1, rows);
+            if (prevSpace is null || prevSpace.Y != curSpace.Y) return (TerrainType)rand.Next(1, 4);
             var flip = rand.Next() % 2 == 0;
-            return flip ? prevSpace.Type : rand.Next(1, rows);
+            return flip ? prevSpace.TerrainType : (TerrainType)rand.Next(1, 4);
         }
     }
 }
