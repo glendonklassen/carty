@@ -5,7 +5,7 @@
     "logLevel": {
       "default": "Error",
       "Host.Results": "Warning",
-      "Function": "Warning",
+      "Function": "Information",
       "Host.Aggregator": "Warning",
       "Function.CartyMap.User": "Information"
     },
